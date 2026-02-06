@@ -1,0 +1,26 @@
+<?php
+return [
+    'all_car' => 'すべての車',
+    'new_car' => '新車',
+    'used_car' => '中古車',
+    'view_all' => 'すべて表示',
+    'view_car' => '車を見る',
+    'review_detail'=>'レビューの詳細',
+    'send' => '送信',
+    'submit' => '送信',
+    'login' => 'ログイン',
+    'Register' => '登録',
+    'bengal' => 'ベンガルハラールフード',
+    'send_message' => 'メッセージを送信',
+    'see_more' => 'もっと見る',
+    'see_details' => '詳細を見る',
+    'add_listing' => 'リストを追加',
+    'save_update' => '保存して更新する',
+    'edit'=> '編集',
+    'sold'=>'販売された',
+    'trash'=>'消去',
+    'in_stock'=>'在庫',
+    'active'=>'アクティブ',
+    'deactive'=>'非アクティブ化する',
+    'currency_icon' => '¥'
+];

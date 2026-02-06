@@ -1,0 +1,25 @@
+<?php
+return [
+    'home' => 'Home',
+    'cars' => 'Cars',
+    'export_cars' => 'Export Cars',
+    'contact' => 'Contact',
+    'login' => 'Login',
+    'register' => 'Register',
+    'logout' => 'Logout',
+    'dashboard' => 'Dashboard',
+    'categories' => 'Categories',
+    'brands' => 'Brands',
+    'models' => 'Models',
+    'features' => 'Features',
+    'my_list' => 'My Listing',
+    'archived' => 'Archived',
+    'article' => 'Article',
+    'messages' => 'Messages',
+    'my_messages' => 'My Messages',
+    'my_cars' => 'My Cars',
+    'my_favorites' => 'My Favorites',
+    'my_reviews' => 'My Reviews',
+    'profile' => 'Profile',
+    'change_pass' => 'Change Password'
+];

@@ -1,0 +1,26 @@
+<?php
+return [
+    'all_car' => 'All car',
+    'new_car' => 'New car',
+    'used_car' => 'Used car',
+    'view_all' => 'View all',
+    'view_car' => 'View car',
+    'review_detail' => 'Review detail',
+    'send' => 'Send',
+    'submit' => 'Submit',
+    'login' => 'Login',
+    'Register' => 'Register',
+    'bengal' => 'Bengal Halal Food',
+    'send_message' => 'Send message',
+    'see_more' => 'See more',
+    'see_details' => 'See details',
+    'add_listing' => 'Add listing',
+    'save_update' => 'Save & Update',
+    'edit'=> 'Edit',
+    'sold'=>'Sold',
+    'trash'=>'Trash',
+    'in_stock'=>'Stock',
+    'active'=>'Active',
+    'deactive'=>'Deactive',
+    'currency_icon' => '$'
+];
