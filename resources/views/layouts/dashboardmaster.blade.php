@@ -128,7 +128,8 @@
                         </li>
                         <li>
                             <a href={{ route('messages') }} class="{{ Route::is('messages.*') ? 'active' : '' }}">
-                                <i class="fa-regular fa-envelope"></i>{{ __('nav.messages') }}<span class="count-page">7</span></a>
+                                <i class="fa-regular fa-envelope"></i>{{ __('nav.messages') }}<span
+                                    class="count-page">7</span></a>
                         </li>
                         <li>
                             <a href="{{ route('reviews.index') }}"
@@ -159,11 +160,11 @@
                             <i class="fa-solid fa-cart-shopping"></i>{{ __('Cart') }}</a>
                     </li>
                     <li>
-                        <a href={{ route('profile') }} class="{{ Route::is('profile') ? 'active' : '' }}">
+                        <a href={{ route('profile') }} class="{{ Route::is('profile.*') ? 'active' : '' }}">
                             <i class="fa-solid fa-user"></i>{{ __('nav.profile') }}</a>
                     </li>
                     <li>
-                        <a href={{ route('profile') }} class="{{ Route::is('profile') ? 'active' : '' }}">
+                        <a href={{ route('seller.create') }} class="{{ Route::is('seller.*') ? 'active' : '' }}">
                             <i class="fa-regular fa-address-card"></i>{{ __('Seller Registration') }}</a>
                     </li>
                     <li>

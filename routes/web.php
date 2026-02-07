@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\BackEnd\BrandsController;
 use App\Http\Controllers\BackEnd\ModelsController;
+use App\Http\Controllers\BackEnd\SellerController;
 use App\Http\Controllers\BackEnd\UserController;
 use App\Http\Controllers\FrontEnd\CarController;
 use App\Http\Controllers\LanguageController;
@@ -51,9 +52,11 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
     Route::get('models/filter', [ModelsController::class, 'query'])->name('models.query');
 
 });
+
 // Users
 Route::middleware(['auth'])->prefix('dashboard')->group(function () {
     Route::resource('users', UserController::class);
+    Route::resource('seller', SellerController::class);
     Route::resource('roles', App\Http\Controllers\BackEnd\RoleController::class);
     Route::resource('permissions', App\Http\Controllers\BackEnd\PermissionController::class);
 });
