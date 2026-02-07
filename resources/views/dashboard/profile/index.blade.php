@@ -68,9 +68,18 @@
                                     </div>
                                 </div>
                             </form>
-                            <div class="choose-box">
-
-
+                            <div class="tfcl_choose_avatar my-5">
+                                <div class="avatar">
+                                    <div class="choose-box">
+                                        <label>{{ __('Register as a seller!') }}</label>
+                                        <div class="form-group row align-items-center flex-nowrap">
+                                            <div class="group-button-submit d-inline">
+                                                <a href="#"
+                                                    class="pre-btn text-center">{{ __('Register') }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <form action={{ route('profile.update') }} method="post">

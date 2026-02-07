@@ -101,7 +101,7 @@ class ListingController extends Controller
                 }
 
                 Listing::create([
-                    'user_id' => auth()->user()->id,
+                    'seller_id' => auth()->user()->id,
                     'category_id' => $request->category_id,
                     'lang' => $request->lang,
                     'title' => $request->title,
@@ -135,16 +135,15 @@ class ListingController extends Controller
                 return redirect('/dashboard/listing');
             } else {
                 Listing::create([
-                    'user_id' => auth()->user()->id,
+                    'seller_id' => auth()->user()->id,
                     'category_id' => $request->category_id,
                     'lang' => $request->lang,
                     'title' => $request->title,
                     'slug' => str::slug($request->title),
-                    'model' => $request->model,
+                    'model_id' => $request->model,
                     'brand_id' => $brand->id,
                     'year' => $request->year,
                     'condition_id' => $condition->id,
-                    'model_id' => $model,
                     'mileage' => $request->mileage,
                     'transmision' => $request->transmision,
                     'driver_type' => $request->driver_type,
@@ -231,7 +230,7 @@ class ListingController extends Controller
         }
         if ($request) {
             Listing::create([
-                'user_id' => auth()->user()->id,
+                'seller_id' => auth()->user()->id,
                 'parent_id' => $parent->id,
                 'category_id' => $parent->category_id,
                 'lang' => $request->lang,
@@ -241,7 +240,7 @@ class ListingController extends Controller
                 'brand_id' => $request->brand_name,
                 'year' => $parent->year,
                 'condition_id' => $request->condition,
-                'stock_numger' => $parent->stock_number,
+                'stock_number' => $parent->stock_number,
                 'mileage' => $parent->mileage,
                 'transmision' => $parent->transmision,
                 'driver_type' => $parent->driver_type,
@@ -255,7 +254,7 @@ class ListingController extends Controller
                 'weight' => $parent->weight,
                 'dimension' => $parent->dimension,
                 'description' => $request->description,
-                'features' => $parent->features,
+                'features_id' => $parent->features_id,
                 'price' => $request->price,
                 'currency' => $currency,
                 'thumbnail' => $parent->thumbnail,
@@ -302,12 +301,12 @@ class ListingController extends Controller
             Listing::find($id)->update([
                 'title' => $request->title,
                 'slug' => str::slug($request->title),
-                'model' => $request->model,
-                'brand_name' => $request->brand_name,
+                'model_id' => $request->model,
+                'brand_id' => $request->brand_name,
                 'type' => $request->type,
                 'year' => $request->year,
-                'condition' => $request->condition,
-                'stock_numger' => $request->stock_number,
+                'condition_id' => $request->condition,
+                'stock_number' => $request->stock_number,
                 'mileage' => $request->mileage,
                 'transmision' => $request->transmision,
                 'driver_type' => $request->driver_type,
@@ -321,7 +320,7 @@ class ListingController extends Controller
                 'weight' => $request->weight,
                 'dimension' => $request->dimension,
                 'description' => $request->description,
-                'features' => json_encode($request->features),
+                'features_id' => json_encode($request->features),
                 'price' => $request->price,
                 'thumbnail' => $image_name,
                 'video' => $request->video,
@@ -333,12 +332,12 @@ class ListingController extends Controller
             Listing::find($id)->update([
                 'title' => $request->title,
                 'slug' => str::slug($request->title),
-                'model' => $request->model,
-                'brand_name' => $request->brand_name,
+                'model_id' => $request->model,
+                'brand_id' => $request->brand_name,
                 'type' => $request->type,
                 'year' => $request->year,
-                'condition' => $request->condition,
-                'stock_numger' => $request->stock_number,
+                'condition_id' => $request->condition,
+                'stock_number' => $request->stock_number,
                 'mileage' => $request->mileage,
                 'transmision' => $request->transmision,
                 'driver_type' => $request->driver_type,

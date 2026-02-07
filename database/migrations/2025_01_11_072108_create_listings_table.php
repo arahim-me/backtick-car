@@ -13,7 +13,7 @@ return new class extends Migration {
     {
         Schema::create('listings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable();
+            $table->foreignId('seller_id')->nullable();
             $table->foreignId('parent_id')->nullable();
             $table->foreignId('category_id')->nullable();
             $table->enum('lang', ['ja', 'en', 'bn'])->default('en');
@@ -38,7 +38,7 @@ return new class extends Migration {
             $table->integer('weight')->nullable();
             $table->integer('dimension')->nullable();
             $table->longText('description')->nullable();
-            $table->longText('features')->nullable();
+            $table->longText('features_id')->nullable();
             $table->integer('price')->nullable();
             $table->string('currency')->nullable();
             $table->foreignId('status_id')->nullable();

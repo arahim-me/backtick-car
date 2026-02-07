@@ -36,7 +36,7 @@ class HomeController extends Controller
         $sold = Status::where('name', 'sold')->first();
         $user_reviews = Review::where('user_id', auth()->user()->id)->get();
         $user_favorites = Favorites::where('user_id', auth()->user()->id)->get();
-        $lists = Listing::where('user_id', auth()->user()->id)->where('status_id', $active->id)->orWhere('status_id', $sold->id)->latest()->paginate(5);
+        $lists = Listing::where('seller_id', auth()->user()->id)->where('status_id', $active->id)->orWhere('status_id', $sold->id)->latest()->paginate(5);
         return view('dashboard.home.index', compact('lists', 'title', 'user_favorites', 'user_reviews'));
 
     }

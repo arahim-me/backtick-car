@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Listing extends Model
 {
     protected $fillable = [
-        'user_id',
+        'seller_id',
         'parent_id',
         'category_id',
         'lang',
@@ -19,7 +19,6 @@ class Listing extends Model
         'year',
         'condition_id',
         'stock_number',
-        'vin_number',
         'mileage',
         'transmision',
         'driver_type',
@@ -32,22 +31,30 @@ class Listing extends Model
         'tyer_type',
         'weight',
         'dimension',
-        'city_mpg',
         'description',
-        'features',
+        'features_id',
         'price',
         'currency',
-        'location',
         'status_id',
         'thumbnail',
         'image',
         'video',
     ];
 
+    // protected $casts = [
+    //     'features_id' => 'array',
+    // ];
+
+    //Relation with features
+    // public function features()
+    // {
+    //     return $this->belongsToMany(Features::class, '', 'listing_id', 'feature_id');
+    // }
+
     // Seller Relationship
     public function seller()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'seller_id', 'id');
     }
     // Category Relationship
     public function category()
