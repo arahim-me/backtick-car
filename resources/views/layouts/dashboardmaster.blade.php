@@ -163,10 +163,18 @@
                         <a href={{ route('profile') }} class="{{ Route::is('profile.*') ? 'active' : '' }}">
                             <i class="fa-solid fa-user"></i>{{ __('nav.profile') }}</a>
                     </li>
-                    <li>
-                        <a href={{ route('seller.create') }} class="{{ Route::is('seller.*') ? 'active' : '' }}">
-                            <i class="fa-regular fa-address-card"></i>{{ __('Seller Registration') }}</a>
-                    </li>
+                    @if ($user->role->name == 'user')
+                        <li>
+                            <a href={{ route('seller.create') }} class="{{ Route::is('seller.*') ? 'active' : '' }}">
+                                <i class="fa-regular fa-address-card"></i>{{ __('Seller Registration') }}</a>
+                        </li>
+                    @endif
+                    @if ($user->role->name == 'seller')
+                        <li>
+                            <a href={{ route('seller.create') }} class="{{ Route::is('seller.*') ? 'active' : '' }}">
+                                <i class="fa-regular fa-address-card"></i>{{ __('Seller Account') }}</a>
+                        </li>
+                    @endif
                     <li>
                         <a href={{ route('password') }} class="{{ Route::is('password') ? 'active' : '' }}">
                             <i class="fa-solid fa-key"></i>{{ __('nav.change_pass') }}</a>
