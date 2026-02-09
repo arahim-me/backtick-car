@@ -76,7 +76,7 @@
                                     <i class="fa-solid fa-user-plus"></i>{{ __('Seller Request') }}</a>
                             </li>
                             <li>
-                                <a href={{ route('roles.index') }} class="{{ Route::is('roles.*') ? 'active' : '' }}">
+                                <a href={{ route('orders.index') }} class="{{ Route::is('orders.*') ? 'active' : '' }}">
                                     <i class="fa-solid fa-ticket"></i>{{ __('Orders') }}</a>
                             </li>
                             <li>

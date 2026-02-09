@@ -9,19 +9,7 @@
                         enctype="multipart/form-data">
                         @csrf
                         <h1 class="admin-title mb-3">Add listing</h1>
-                        @if ($errors->any())
-                            <div class="row ">
-                                <div class="col-md-6 mx-auto">
-                                    <div class="alert alert-danger">
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
+                        <x-dashboard-error></x-dashboard-error>
                         <div class="tfcl-add-listing">
                             <fieldset class="message-wrap">
                                 <h3>Select Language</h3>

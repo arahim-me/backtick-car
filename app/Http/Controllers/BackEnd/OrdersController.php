@@ -3,16 +3,25 @@
 namespace App\Http\Controllers\BackEnd;
 
 use App\Http\Controllers\Controller;
+use App\Models\Orders;
 use Illuminate\Http\Request;
 
-class SellerController extends Controller
+class OrdersController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('seller.index');
+        $user = auth()->user();
+        $title = 'Orders';
+        if ($user->role->id == 1 || $user->role->id == 2) {
+            $orders = Orders::latest()->get();
+            return view('dashboard.orders.index', compact(['title', 'orders']));
+        } else {
+            $orders = Orders::where('seller_id', $user->id)->latest()->get();
+            return view('dashboard.orders.index', compact(['title', 'orders']));
+        }
     }
 
     /**
@@ -20,18 +29,9 @@ class SellerController extends Controller
      */
     public function create()
     {
-        $user = auth()->user();
-        $isSeller = auth()->user()->role->name === 'seller';
-        if (!$isSeller && !$user->name || !$user->email || !$user->phone || !$user->location || !$user->description) {
-            $error = 'Please update your profile information before registering as a seller.';
-            return redirect()->route('profile', compact(['error', 'user']));
-        } else if ($isSeller) {
-            $error = 'You are already registered as a seller.';
-            return redirect()->route('profile', compact(['error', 'user']));
-        } else {
-            $title = 'Seller Registration';
-            return view('seller.register', compact(['title', 'user']));
-        }
+        //$title = 'Create Order';
+        //$sellers = User::where('role_id', 2)->get();
+        //$customers = User::where('role_id', 3)->get();
     }
 
     /**

@@ -33,7 +33,7 @@
                         <div class="images flex-none relative" style="max-height: 100vh">
                             <img class="lazyload" style="height: 100%; overflow: hidden;"
                                 data-src="{{ asset('resources') }}/assets/images/section/register.jpg"
-                                src="{{ asset('resources') }}/assets/images/section/register.jpg" alt="images">
+                                src="{{ asset('resources') }}/assets/images/section/login.jpg" alt="images">
                         </div>
                         <div class="content" style="display: flex; flex-direction: column; justify-content: center;">
                             <h1 class="title-login">Register</h1>

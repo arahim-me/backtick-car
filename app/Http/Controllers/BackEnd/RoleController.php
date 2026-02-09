@@ -14,9 +14,15 @@ class RoleController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
         $title = 'Roles';
         $roles = Role::all();
-        return view('dashboard.roles.index', compact(['roles', 'title']));
+        if ($user->role->id <= 4) {
+            return view('dashboard.roles.index', compact(['title', 'roles']));
+        } else {
+            toast('You are not authorized to view this page.', 'error');
+            return redirect()->back();
+        }
     }
 
     /**

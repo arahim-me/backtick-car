@@ -3,14 +3,9 @@
 
 use App\Http\Controllers\BackEnd\BrandsController;
 use App\Http\Controllers\BackEnd\ModelsController;
+use App\Http\Controllers\BackEnd\OrdersController;
 use App\Http\Controllers\BackEnd\SellerController;
 use App\Http\Controllers\BackEnd\UserController;
-use App\Http\Controllers\FrontEnd\CarController;
-use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\RoleController;
-use App\Http\Middleware\AuthMiddleware;
-use App\Models\Models;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -83,18 +78,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard/car/edit/{id}', [App\Http\Controllers\ListingController::class, 'edit'])->name('edit.listing');
     Route::post('/dashboard/car/update/{id}', [App\Http\Controllers\ListingController::class, 'update'])->name('update.listing');
 });
-// Route::group(['middleware' => 'auth'], function () {
-//     Route::get('/dashboard/listing', [App\Http\Controllers\ListingController::class, 'index'])->name('listing');
-//     Route::get('/dashboard/car/add-by-lang/{lang}', [App\Http\Controllers\ListingController::class, 'add_car_by_lang'])->name('add.car.by.lang');
-//     Route::get('/dashboard/car/add', [App\Http\Controllers\ListingController::class, 'add_listing'])->name('add.listing');
-//     Route::post('/dashboard/car/add', [App\Http\Controllers\ListingController::class, 'store'])->name('store.listing');
-//     Route::get('/dashboard/car/sold/{id}', [App\Http\Controllers\ListingController::class, 'sold'])->name('sold.listing');
-//     Route::get('/dashboard/car/convert/lang/{id}/{lang}', [App\Http\Controllers\ListingController::class, 'convert_lang'])->name('lang.convert');
-//     Route::post('/dashboard/car/convert/listing/{id}', [App\Http\Controllers\ListingController::class, 'convert_listing'])->name('listing.convert');
-//     Route::get('/dashboard/car/destroy/{id}', [App\Http\Controllers\ListingController::class, 'destroy'])->name('destroy.listing');
-//     Route::get('/dashboard/car/edit/{id}', [App\Http\Controllers\ListingController::class, 'edit'])->name('edit.listing');
-//     Route::post('/dashboard/car/update/{id}', [App\Http\Controllers\ListingController::class, 'update'])->name('update.listing');
-// });
+
+//Orders
+Route::middleware(['auth'])->prefix('dashboard')->group(function () {
+    Route::resource('orders', OrdersController::class);
+});
+
+// Listing Details
 Route::get('/car/details/{id}', [App\Http\Controllers\FrontEnd\CarController::class, 'listing_details'])->name('listing.details');
 // Categories
 Route::group(['middleware' => 'auth'], function () {

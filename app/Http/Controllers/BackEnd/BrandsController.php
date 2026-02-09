@@ -10,13 +10,19 @@ use App\Http\Controllers\LanguageController;
 
 class BrandsController extends Controller
 {
+
     public function index(LanguageController $language)
     {
         $language->language();
+        $user = auth()->user();
         $title = 'Brands';
         $brands = Brands::all();
-
-        return view('dashboard.brands.index', compact(['title', 'brands']));
+        if ($user->role()->id <= 4) {
+            return view('dashboard.brands.index', compact(['title', 'brands']));
+        } else {
+            toast('You are not authorized to view this page.', 'error');
+            return redirect()->back();
+        }
     }
     public function create(LanguageController $language)
     {
