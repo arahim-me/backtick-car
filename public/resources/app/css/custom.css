@@ -8,15 +8,21 @@
     color: #fff;
     overflow: scroll;
 }
+
 #seller-register #register-form {
+    background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
 }
+
 #seller-register .title-login {
-    color: #fff;
+    color: #ffaa01;
 }
+
 #seller-register label {
     color: #fff;
 }
-#seller-register .title{
-    color: #fff;
+
+#seller-register .title {
+    color: #ffaa01;
+    ;
 }

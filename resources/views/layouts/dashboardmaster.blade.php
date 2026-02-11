@@ -52,11 +52,7 @@
             </a>
         </div>
 
-        @if (
-            $user->role->name == 'admin' ||
-                $user->role->name == 'manager' ||
-                $user->role->name == 'seller' ||
-                $user->role->name == 'author')
+        @if ($user->role->id <= 4)
             <div class="db-content db-list-menu">
                 <h6 class="db-title">Menu [Only for Admins, Managers, Sellers & Authors]</h6>
                 <div class="db-dashboard-menu">
@@ -68,15 +64,18 @@
                                     <i class="fa-solid fa-users"></i>{{ __('Users') }}</a>
                             </li>
                             <li>
-                                <a href={{ route('users.index') }} class="{{ Route::is('users.*') ? 'active' : '' }}">
+                                <a href={{ route('seller.index') }}
+                                    class="{{ Route::is('seller.*') ? 'active' : '' }}">
                                     <i class="fa-solid fa-user-check"></i>{{ __('Sellers') }}</a>
                             </li>
                             <li>
-                                <a href={{ route('users.index') }} class="{{ Route::is('users.*') ? 'active' : '' }}">
+                                <a href={{ route('seller.request') }}
+                                    class="{{ Route::is('seller.request') ? 'active' : '' }}">
                                     <i class="fa-solid fa-user-plus"></i>{{ __('Seller Request') }}</a>
                             </li>
                             <li>
-                                <a href={{ route('orders.index') }} class="{{ Route::is('orders.*') ? 'active' : '' }}">
+                                <a href={{ route('orders.index') }}
+                                    class="{{ Route::is('orders.*') ? 'active' : '' }}">
                                     <i class="fa-solid fa-ticket"></i>{{ __('Orders') }}</a>
                             </li>
                             <li>
@@ -108,8 +107,8 @@
                                     <i class="fa-solid fa-layer-group"></i>{{ __('nav.categories') }}</a>
                             </li>
                             <li>
-                                <a href={{ route('dashboard.features.index') }}
-                                    class="{{ Route::is('dashboard.features.*') ? 'active' : '' }}">
+                                <a href={{ route('features.index') }}
+                                    class="{{ Route::is('features.*') ? 'active' : '' }}">
                                     <i class="fa-solid fa-list"></i>{{ __('nav.features') }}</a>
                             </li>
                             {{-- <li>

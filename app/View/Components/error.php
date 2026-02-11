@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 
-class dashboard_errors extends Component
+class error extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class dashboard_errors extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.dashboard_errors');
+        return view('components.error');
     }
 }

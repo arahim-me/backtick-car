@@ -17,7 +17,7 @@ class HasRoleMiddleware
     {
         $user = auth()->user();
         if (!$user || !$user->role || !in_array($user->role->name, $roles)) {
-            $role = $user->user_role->name;
+            // $role = $user->user_role->name;
             abort(403);
         }
         return $next($request);

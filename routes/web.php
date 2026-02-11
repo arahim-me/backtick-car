@@ -20,12 +20,11 @@ Route::get('/query/by/category/{id}', [App\Http\Controllers\QueryController::cla
 Route::get('/query/by/brand/{id}', [App\Http\Controllers\QueryController::class, 'query_by_brand'])->name('query.by.brand');
 Route::get('/query/by/model/{id}', [App\Http\Controllers\QueryController::class, 'query_by_model'])->name('query.by.model');
 Route::get('/query/by/condition/{condition}', [App\Http\Controllers\QueryController::class, 'query_by_condition'])->name('query.by.condition');
-
 // Exports Car Page
 Route::get('/car/exports', [App\Http\Controllers\FrontEnd\ExportController::class, 'index'])->name('exports.index');
-
 // News/Article page view
 Route::get('/articles', [App\Http\Controllers\FrontEnd\ArticleController::class, 'index'])->name('article.index');
+
 Route::get('dashboard/articles', [App\Http\Controllers\BackEnd\ArticleController::class, 'index'])->name('dashboard.article.index');
 
 
@@ -36,37 +35,31 @@ Route::post('/contact/message/send', [App\Http\Controllers\MessagesController::c
 //About page view
 Route::get('/about', [App\Http\Controllers\FrontEnd\AboutController::class, 'index'])->name('about.index');
 
-// Messages
-Route::get('/dashboard/messages', [App\Http\Controllers\MessagesController::class, 'index'])->name('messages')->middleware('auth');
-
 Auth::routes();
 // Dashboard Home
-Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::middleware(['auth'])->prefix('dashboard')->group(function () {
-    Route::get('filter/users', [UserController::class, 'query'])->name('users.query');
-    Route::get('models/filter', [ModelsController::class, 'query'])->name('models.query');
-
+Route::middleware('auth')->prefix('dashboard')->group(function () {
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::resource('seller', SellerController::class);
 });
+
+Route::middleware(['role:admin,manager'])->prefix('dashboard')->group(function () {
+    Route::get('filter/users', [UserController::class, 'query'])->name('users.query');
+    Route::get('filter/models', [ModelsController::class, 'query'])->name('models.query');
+});
+
+
 
 // Users
-Route::middleware(['auth'])->prefix('dashboard')->group(function () {
+Route::middleware(['role:admin,manager'])->prefix('dashboard')->group(function () {
     Route::resource('users', UserController::class);
-    Route::resource('seller', SellerController::class);
     Route::resource('roles', App\Http\Controllers\BackEnd\RoleController::class);
     Route::resource('permissions', App\Http\Controllers\BackEnd\PermissionController::class);
+    Route::get('/seller/request', [SellerController::class, 'request'])->name('seller.request');
+    Route::get('/role/update/status/{id}', [App\Http\Controllers\BackEnd\RoleController::class, 'update_status'])->name('roles.update.status');
 });
-
-// Status Update for Roles
-Route::middleware(['auth'])->prefix('dashboard')->group(function () {
-    Route::get('/roles/update/status/{id}', [App\Http\Controllers\BackEnd\RoleController::class, 'update_status'])->name('roles.update.status');
-});
-
-
-// Permissions
-
 
 // Listing
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['role:admin,manager,seller'])->group(function () {
     Route::get('/dashboard/listing', [App\Http\Controllers\ListingController::class, 'index'])->name('listing');
     Route::get('/dashboard/car/add-by-lang/{lang}', [App\Http\Controllers\ListingController::class, 'add_car_by_lang'])->name('add.car.by.lang');
     Route::get('/dashboard/car/add', [App\Http\Controllers\ListingController::class, 'add_listing'])->name('add.listing');
@@ -79,80 +72,71 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/dashboard/car/update/{id}', [App\Http\Controllers\ListingController::class, 'update'])->name('update.listing');
 });
 
-//Orders
-Route::middleware(['auth'])->prefix('dashboard')->group(function () {
-    Route::resource('orders', OrdersController::class);
-});
-
 // Listing Details
 Route::get('/car/details/{id}', [App\Http\Controllers\FrontEnd\CarController::class, 'listing_details'])->name('listing.details');
 // Categories
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('dashboard/categories', [App\Http\Controllers\Backend\CategoryController::class, 'index'])->name('categories.index');
-    Route::get('dashboard/categories/create', [App\Http\Controllers\Backend\CategoryController::class, 'create'])->name('categories.create');
-    Route::post('dashboard/categories/store', [App\Http\Controllers\Backend\CategoryController::class, 'store'])->name('categories.store');
-    Route::get('dashboard/categories/edit/{id}', [App\Http\Controllers\Backend\CategoryController::class, 'edit'])->name('categories.edit');
-    Route::post('dashboard/categories/update/{id}', [App\Http\Controllers\Backend\CategoryController::class, 'update'])->name('categories.update');
-    Route::get('dashboard/categories/update/status/{id}', [App\Http\Controllers\Backend\CategoryController::class, 'update_status'])->name('categories.update.status');
-    Route::get('dashboard/categories/destroy/{id}', [App\Http\Controllers\Backend\CategoryController::class, 'destroy'])->name('categories.destroy');
+Route::middleware(['role:admin,manager,seller'])->prefix('dashboard')->group(function () {
+    Route::get('categories', [App\Http\Controllers\Backend\CategoryController::class, 'index'])->name('categories.index');
+    Route::get('categories/create', [App\Http\Controllers\Backend\CategoryController::class, 'create'])->name('categories.create');
+    Route::post('categories/store', [App\Http\Controllers\Backend\CategoryController::class, 'store'])->name('categories.store');
+    Route::get('categories/edit/{id}', [App\Http\Controllers\Backend\CategoryController::class, 'edit'])->name('categories.edit');
+    Route::post('categories/update/{id}', [App\Http\Controllers\Backend\CategoryController::class, 'update'])->name('categories.update');
+    Route::get('categories/update/status/{id}', [App\Http\Controllers\Backend\CategoryController::class, 'update_status'])->name('categories.update.status');
+    Route::get('categories/destroy/{id}', [App\Http\Controllers\Backend\CategoryController::class, 'destroy'])->name('categories.destroy');
 });
 // Export Listing
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('dashboard/car/export', [App\Http\Controllers\BackEnd\ExportController::class, 'index'])->name('dashboard.export.index');
-    Route::get('dashboard/car/export/add', [App\Http\Controllers\BackEnd\ExportController::class, 'add'])->name('dashboard.export.add');
-    Route::post('dashboard/car/export/store', [App\Http\Controllers\BackEnd\ExportController::class, 'store'])->name('dashboard.export.store');
-    Route::get('dashboard/car/export/edit/{id}', [App\Http\Controllers\BackEnd\ExportController::class, 'edit'])->name('dashboard.export.edit');
-    Route::post('dashboard/car/export/update/{id}', [App\Http\Controllers\BackEnd\ExportController::class, 'update'])->name('dashboard.export.update');
+Route::middleware(['role:admin,manager,seller'])->prefix('dashboard')->group(function () {
+    Route::get('car/export', [App\Http\Controllers\BackEnd\ExportController::class, 'index'])->name('dashboard.export.index');
+    Route::get('car/export/add', [App\Http\Controllers\BackEnd\ExportController::class, 'add'])->name('dashboard.export.add');
+    Route::post('car/export/store', [App\Http\Controllers\BackEnd\ExportController::class, 'store'])->name('dashboard.export.store');
+    Route::get('car/export/edit/{id}', [App\Http\Controllers\BackEnd\ExportController::class, 'edit'])->name('dashboard.export.edit');
+    Route::post('car/export/update/{id}', [App\Http\Controllers\BackEnd\ExportController::class, 'update'])->name('dashboard.export.update');
 });
 
-// My Brands
-Route::middleware('auth')->prefix('dashboard')->group(function () {
+
+
+// Role Routes Admin, Manager, Seller
+Route::middleware(['role:admin,manager,seller'])->prefix('dashboard')->group(function () {
+    // Messages
+    Route::get('/dashboard/messages', [App\Http\Controllers\MessagesController::class, 'index'])->name('messages');
+    // Orders
+    Route::get('/orders', [OrdersController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{id}', [OrdersController::class, 'order_details'])->name('orders.details');
+    // Car Brands
     Route::resource('brands', BrandsController::class);
-
-    // custom status toggle
-    // Route::get('car/brands/update/status/{id}', [App\Http\Controllers\BackEnd\BrandsController::class, 'update_status'])->name('dashboard.brands.update.status');
-});
-// Car Models
-Route::middleware(['auth'])->prefix('dashboard')->group(function () {
-    // models filter/search (must be registered before the resource to avoid being matched by the {model} route)
+    // Car Features
+    Route::resource('car/features', App\Http\Controllers\BackEnd\FeaturesController::class);
     Route::resource('models', ModelsController::class);
-});
-
-// CAR Features
-Route::middleware('auth')->prefix('dashboard')->group(function () {
-    Route::resource('car/features', App\Http\Controllers\BackEnd\FeaturesController::class, ['as' => 'dashboard']);
     // custom status toggle
     Route::get('car/features/update/status/{id}', [App\Http\Controllers\BackEnd\FeaturesController::class, 'update_status'])->name('dashboard.features.update.status');
+    // Car Trash
+    Route::get('car/trash', [App\Http\Controllers\BackEnd\TrashController::class, 'index'])->name('trash.index');
+    Route::get('car/trash/{id}', [App\Http\Controllers\BackEnd\TrashController::class, 'trash_listing'])->name('trash.listing');
 });
 
-// Trash Listing
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/dashboard/car/trash', [App\Http\Controllers\BackEnd\TrashController::class, 'index'])->name('trash.index');
-    Route::get('/car/trash/{id}', [App\Http\Controllers\BackEnd\TrashController::class, 'trash_listing'])->name('trash.listing');
+// Role Routes Admin, Manager, Seller
+Route::middleware('role:admin,manager,seller')->group(function () {
+    // Review
+    Route::get('/dashboard/reviews', [App\Http\Controllers\BackEnd\ReviewController::class, 'index'])->name('reviews.index');
+    Route::get('/review/update/status/{id}', [\App\Http\Controllers\BackEnd\ReviewController::class, 'review_status_update'])->name('review.status.update');
+    Route::get('/review/update/testimonial/{id}', [\App\Http\Controllers\BackEnd\ReviewController::class, 'review_testimonial_update'])->name('review.testimonial.update')->middleware('role:admin');
+    Route::get('/review/destroy/{id}', [\App\Http\Controllers\BackEnd\ReviewController::class, 'review_destroy'])->name('review.destroy');
 });
 
-
-// Favorite
-// Route::get('/dashboard/favorite', [App\Http\Controllers\FavoriteController::class, 'index'])->name('favorite');
-Route::get('/dashboard/favorite', [App\Http\Controllers\BackEnd\FavoriteController::class, 'index'])->name('favorite.index');
-Route::get('/dashboard/favorite/store/{id}', [App\Http\Controllers\BackEnd\FavoriteController::class, 'store'])->name('favorite.store');
-Route::get('/dashboard/favorite/destroy/{id}', [App\Http\Controllers\BackEnd\FavoriteController::class, 'destroy'])->name('favorite.destroy');
-
-
-// Review
-Route::get('/dashboard/reviews', [App\Http\Controllers\BackEnd\ReviewController::class, 'index'])->name('reviews.index')->middleware('auth');
-Route::post('/review/store', [\App\Http\Controllers\BackEnd\ReviewController::class, 'store'])->name('review.store');
-Route::get('/review/update/status/{id}', [\App\Http\Controllers\BackEnd\ReviewController::class, 'review_status_update'])->name('review.status.update');
-Route::get('/review/update/testimonial/{id}', [\App\Http\Controllers\BackEnd\ReviewController::class, 'review_testimonial_update'])->name('review.testimonial.update');
-Route::get('/review/destroy/{id}', [\App\Http\Controllers\BackEnd\ReviewController::class, 'review_destroy'])->name('review.destroy');
-
-// Profile
-Route::get('/dashboard/edit/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
-Route::post('/profile/update', [App\Http\Controllers\ProfileController::class, 'profile_update'])->name('profile.update');
-Route::post('/profile/update/image', [App\Http\Controllers\ProfileController::class, 'profile_update_image'])->name('profile.update.image');
-Route::post('/profile/update/lang', [App\Http\Controllers\ProfileController::class, 'language'])->name('lang.update');
-
-// Password
-Route::get('/dashboard/edit/password', [App\Http\Controllers\PasswordController::class, 'index'])->name('password');
-Route::post('profile/update/password', [App\Http\Controllers\PasswordController::class, 'profile_update_password'])->name('profile.update.password');
-
+// Auth Routes
+Route::middleware(['auth'])->prefix('dashboard')->group(function () {
+    // Review
+    Route::post('/review/store', [\App\Http\Controllers\BackEnd\ReviewController::class, 'store'])->name('review.store');
+    // Favorites
+    Route::get('/favorite', [App\Http\Controllers\BackEnd\FavoriteController::class, 'index'])->name('favorite.index');
+    Route::get('favorite/store/{id}', [App\Http\Controllers\BackEnd\FavoriteController::class, 'store'])->name('favorite.store');
+    Route::get('/favorite/destroy/{id}', [App\Http\Controllers\BackEnd\FavoriteController::class, 'destroy'])->name('favorite.destroy');
+    // Profile
+    Route::get('/edit/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
+    Route::post('/profile/update', [App\Http\Controllers\ProfileController::class, 'profile_update'])->name('profile.update');
+    Route::post('/profile/update/image', [App\Http\Controllers\ProfileController::class, 'profile_update_image'])->name('profile.update.image');
+    Route::post('/profile/update/lang', [App\Http\Controllers\ProfileController::class, 'language'])->name('lang.update');
+    // Password
+    Route::get('/edit/password', [App\Http\Controllers\PasswordController::class, 'index'])->name('password');
+    Route::post('/profile/update/password', [App\Http\Controllers\PasswordController::class, 'profile_update_password'])->name('profile.update.password');
+});

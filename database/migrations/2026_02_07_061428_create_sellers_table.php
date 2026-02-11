@@ -13,19 +13,20 @@ return new class extends Migration {
         Schema::create('sellers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->unique();
-            $table->string('store_name')->unique();
-            $table->string('store_email')->unique()->nullable();
-            $table->json('store_phone')->unique()->nullable();
-            $table->string('store_website')->unique()->nullable();
-            $table->json('store_social_media_links')->nullable();
-            $table->string('store_fax')->unique()->nullable();
-            $table->string('store_registration_number')->unique()->nullable();
-            $table->string('store_used_cars_license_number')->unique()->nullable();
-            $table->json('store_bank_account_number')->nullable();
-            $table->string('store_tax_number')->unique()->nullable();
-            $table->string('store_description')->nullable();
-            $table->string('store_logo')->nullable();
-            $table->json('store_address')->nullable();
+            $table->foreignId('status_id');
+            $table->string('name')->nullable();
+            $table->string('email')->nullable();
+            $table->json('phone')->nullable();
+            $table->string('fax')->nullable();
+            $table->string('website')->nullable();
+            $table->json('social_media_links')->nullable();
+            $table->string('registration_number')->unique()->nullable();
+            $table->string('tax_number')->unique()->nullable();
+            $table->string('used_cars_license_number')->unique()->nullable();
+            $table->json('bank_account')->nullable();
+            $table->string('description')->nullable();
+            $table->string('logo')->nullable();
+            $table->json('address')->nullable();
             $table->timestamps();
         });
     }

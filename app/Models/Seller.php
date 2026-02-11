@@ -8,19 +8,34 @@ class Seller extends Model
 {
     protected $fillable = [
         'user_id',
-        'store_name',
-        'store_email',
-        'store_phone',
-        'store_fax',
-        'store_website',
-        'store_social_media_links',
-        'store_registration_number',
-        'store_tax_number',
-        'store_used_cars_license_number',
-        'store_bank_account_number',
-        'store_description',
-        'store_logo',
-        'store_address',
+        'status_id',
+        'name',
+        'email',
+        'phone',
+        'fax',
+        'website',
+        'social_media_links',
+        'registration_number',
+        'tax_number',
+        'used_cars_license_number',
+        'bank_account',
+        'description',
+        'logo',
+        'address',
+    ];
+    protected $casts = [
+        'phone' => 'array',
+        'social_media_links' => 'array',
+        'bank_account' => 'array',
+        'address' => 'array',
     ];
     // User Relationship
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'status_id', 'id');
+    }
 }

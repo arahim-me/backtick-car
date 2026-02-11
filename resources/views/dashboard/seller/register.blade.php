@@ -35,10 +35,11 @@
                         </div> --}}
                         <div class="content" style="display: flex; flex-direction: column; justify-content: center;">
                             <h1 class="title-login">{{ $title }}</h1>
+                            <x-error></x-error>
                             <div class="comments">
                                 <div class="respond-comment">
                                     <form method="POST" class="comment-form form-submit"
-                                        action="{{ route('seller.create') }}" accept-charset="utf-8"
+                                        action="{{ route('seller.store') }}" accept-charset="utf-8"
                                         novalidate="novalidate">
                                         @method('POST')
                                         @csrf
@@ -169,9 +170,9 @@
                                             </div>
                                         </fieldset>
                                         <fieldset class="t">
-                                            <label class="fw-6">Shop Phone</label>
-                                            <input type="tel" class="tb-my-input" name="phone"
-                                                placeholder="Phone number">
+                                            <label class="fw-6">Shop Description</label>
+                                            <input type="tel" class="tb-my-input" name="description"
+                                                placeholder="Shop description">
                                             <div class="icon">
                                                 <svg width="18" height="18" viewBox="0 0 18 18"
                                                     fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -184,12 +185,12 @@
                                         </fieldset>
                                         <div class="col mt-4">
                                             <div class="title my-3">
-                                                <h3>Bank Information</h3>
+                                                <h3 class="title">Bank Information</h3>
                                             </div>
                                             <fieldset class="t">
                                                 <label class="fw-6">Bank Name</label>
                                                 <div class="form-group">
-                                                    <input type="text" class="tb-my-input" name="bank_name"
+                                                    <input type="text" class="tb-my-input" name="bank[name]"
                                                         placeholder="Bank Name">
                                                     <div class="icon">
                                                         <i class="fa-solid fa-money-check-dollar"></i>
@@ -200,7 +201,7 @@
                                                 <label class="fw-6">Bank Account Number</label>
                                                 <div class="form-group">
                                                     <input type="text" class="tb-my-input"
-                                                        name="bank_account_number" placeholder="Account Number">
+                                                        name="bank[account_number]" placeholder="Account Number">
                                                     <div class="icon">
                                                         <i class="fa-solid fa-money-check-dollar"></i>
                                                     </div>
@@ -209,7 +210,7 @@
                                             <fieldset class="t">
                                                 <label class="fw-6">Bank Branch</label>
                                                 <div class="form-group">
-                                                    <input type="text" class="tb-my-input" name="bank_branch"
+                                                    <input type="text" class="tb-my-input" name="bank[branch]"
                                                         placeholder="Branch Name">
                                                     <div class="icon">
                                                         <i class="fa-solid fa-money-check-dollar"></i>
@@ -218,14 +219,10 @@
                                             </fieldset>
                                         </div>
                                         <button class="sc-button" name="submit" type="submit">
-                                            <span>Sign Up</span>
+                                            <span>Register</span>
                                         </button>
                                     </form>
                                 </div>
-                            </div>
-                            <div class="text-box text-center fs-14">Don’t you have an account?<a
-                                    href="{{ route('login') }}"
-                                    class="font-2 fw-7 fs-14 color-popup text-color-3">Login</a>
                             </div>
                             {{-- <p class="texts line fs-12 text-center">or Register with</p>
                             <div class="button-box flex">
