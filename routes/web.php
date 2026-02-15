@@ -62,7 +62,7 @@ Route::middleware(['role:admin,manager'])->prefix('dashboard')->group(function (
 Route::middleware(['role:admin,manager,seller'])->group(function () {
     Route::get('/dashboard/listing', [App\Http\Controllers\ListingController::class, 'index'])->name('listing');
     Route::get('/dashboard/car/add-by-lang/{lang}', [App\Http\Controllers\ListingController::class, 'add_car_by_lang'])->name('add.car.by.lang');
-    Route::get('/dashboard/car/add', [App\Http\Controllers\ListingController::class, 'add_listing'])->name('add.listing');
+    Route::get('/dashboard/car/add', [App\Http\Controllers\ListingController::class, 'create'])->name('add.listing');
     Route::post('/dashboard/car/add', [App\Http\Controllers\ListingController::class, 'store'])->name('store.listing');
     Route::get('/dashboard/car/sold/{id}', [App\Http\Controllers\ListingController::class, 'sold'])->name('sold.listing');
     Route::get('/dashboard/car/convert/lang/{id}/{lang}', [App\Http\Controllers\ListingController::class, 'convert_lang'])->name('lang.convert');

@@ -271,7 +271,8 @@
                                                         <div class="content-listing-info">
                                                             <span class="listing-info-title">
                                                                 Condition:</span>
-                                                            <p class="listing-info-value">{{ $list->condition }}</p>
+                                                            <p class="listing-info-value text-capitalize">
+                                                                {{ $list->condition->name }}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -341,7 +342,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-xl-6 col-md-6 item">
+                                                {{-- <div class="col-xl-6 col-md-6 item">
                                                     <div class="inner listing-infor-box">
                                                         <div class="icon">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
@@ -357,7 +358,7 @@
                                                             <p class="listing-info-value">{{ $list->vin_number }}</p>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="col-xl-6 col-md-6 item">
                                                     <div class="inner listing-infor-box">
                                                         <div class="icon">
@@ -450,7 +451,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-xl-6 col-md-6 item">
+                                                {{-- <div class="col-xl-6 col-md-6 item">
                                                     <div class="inner listing-infor-box">
                                                         <div class="icon">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
@@ -466,7 +467,7 @@
                                                             <p class="listing-info-value">{{ $list->city_mpg }}</p>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="col-xl-6 col-md-6 item">
                                                     <div class="inner listing-infor-box">
                                                         <div class="icon">
@@ -527,21 +528,14 @@
                                         </div>
                                         <div class="features-inner tf-collapse-content">
                                             <div class="inner">
-
-                                                @if ($list->features !== null)
-                                                    @foreach (json_decode($list->features) as $feature)
-                                                        <div class="listing-feature-wrap flex">
-                                                            <i class="icon-autodeal-check"></i>
-                                                            <p>{{ $feature }}</p>
-                                                        </div>
-                                                    @endforeach
-                                                @else
-                                                    <h4 class="text-danger">No Data found</h4>
-                                                @endif
-
+                                                @foreach (json_decode($list->features_id) as $feature)
+                                                    <div class="listing-feature-wrap flex">
+                                                        <i class="icon-autodeal-check"></i>
+                                                        <p>{{ $feature }}</p>
+                                                    </div>
+                                                @endforeach
                                             </div>
                                         </div>
-
                                     </div>
                                     <div class="listing-line "></div>
                                     <div class="listing-location" id="scrollspyHeading3">
@@ -750,7 +744,8 @@
                     <div class="listing-sidebar">
                         <div class="widget-listing mb-40">
                             <div class="heading-widget">
-                                <h2 class="title">{{ $list->brand_name . ' || ' . $list->model . ' || ' . $list->title }}
+                                <h2 class="title">
+                                    {{ $list->brand->name . ' || ' . $list->model->name . ' || ' . $list->title }}
                                 </h2>
                                 <div class="icon-box flex flex-wrap">
                                     <div class="icons flex-three">
@@ -895,7 +890,7 @@
                                         <div class="image">
                                             <img class="lazyload"
                                                 data-src="{{ asset('uploads/products/thumbnails') }}/{{ $car->thumbnail }}"
-                                                    src="{{ asset('uploads/products/thumbnails') }}/{{ $car->thumbnail }}"
+                                                src="{{ asset('uploads/products/thumbnails') }}/{{ $car->thumbnail }}"
                                                 alt="image">
                                         </div>
                                         <div class="content">

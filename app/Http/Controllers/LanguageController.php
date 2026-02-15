@@ -14,8 +14,8 @@ class LanguageController extends Controller
         if (!auth()->check()) {
             App::setLocale('ja');
         } elseif (auth()->check() && auth()->user()->lang) {
-            $language = auth()->user()->lang;
-            App::setLocale($language);
+            $lang = auth()->user()->lang;
+            App::setLocale($lang);
         } else {
             App::setLocale('ja');
         }

@@ -902,9 +902,7 @@
                                                     </p>
                                                 </div>
                                                 <h5 class="link-style-1">
-                                                    <a href="{{ route('listing.details', $car->id) }}">{{ $car->model ? __($car->model) : '' }}
-                                                        ||
-                                                        {{ $car->title ? __($car->title) : '' }}</a>
+                                                    <a href="{{ route('listing.details', $car->id) }}">{{ $car->model->name }} || {{ $car->title}}</a>
                                                 </h5>
                                                 <div class="icon-box flex flex-wrap">
                                                     <div class="icons flex-three">

@@ -48,7 +48,7 @@
                                             </div> --}}
                                             <div class="row">
                                                 <div class="form-group col-md-8">
-                                                    <form action="{{ route('dashboard.models.query') }}" method="GET">
+                                                    <form action="{{ route('models.query') }}" method="GET">
                                                         <div class="form-control row g-2">
                                                             <label for="q">Search Models *</label>
                                                             <input type="text" name="q" id="q"
@@ -60,7 +60,7 @@
                                                     </form>
                                                 </div>
                                                 <div class="form-group col-md-4">
-                                                    <form action="{{ route('dashboard.models.query') }}" method="GET">
+                                                    <form action="{{ route('models.query') }}" method="GET">
                                                         <div class="form-control row g-2">
                                                             <label for="brand">Select Brand *</label>
                                                             <select class="nice-select form-control" tabindex="0"

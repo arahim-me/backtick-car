@@ -9,7 +9,7 @@
                         enctype="multipart/form-data">
                         @csrf
                         <h1 class="admin-title mb-3">Add listing</h1>
-                        <x-dashboard-error></x-dashboard-error>
+                        <x-error></x-error>
                         <div class="tfcl-add-listing">
                             <fieldset class="message-wrap">
                                 <h3>Select Language</h3>
@@ -82,7 +82,7 @@
                                     <label for="category">Select Category *</label>
                                     <select class="nice-select form-control" tabindex="0" name="category_id">
                                         @foreach ($categories as $category)
-                                            <option class="optoin" value="{{ $category->id }}">{{ $category->name }}
+                                            <option class="optoin" value={{ $category->id }}>{{ $category->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -95,7 +95,7 @@
                                         id="brand" required>
                                         <option value="" disabled selected>Select Brand</option>
                                         @foreach ($brands as $brand)
-                                            <option class="optoin" value="{{ $brand->id }}">{{ $brand->name }}
+                                            <option class="optoin" value={{ $brand->id }}>{{ $brand->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -113,7 +113,7 @@
                                     <label for="years">Years *</label>
                                     <select class="nice-select form-control" tabindex="0" name="year" required>
                                         @for ($i = date('Y'); $i >= 1990; $i--)
-                                            <option value="{{ $i }}">{{ $i }}</option>
+                                            <option value={{ $i }}>{{ $i }}</option>
                                         @endfor
                                     </select>
                                 </div>
@@ -121,7 +121,7 @@
                                     <label for="category">Select Condition *</label>
                                     <select class="nice-select form-control" tabindex="0" name="condition_id">
                                         @foreach ($conditions as $condition)
-                                            <option class="optoin" value="{{ $condition->id }}">{{ $condition->name }}
+                                            <option class="optoin" value={{ $condition->id }}>{{ $condition->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -196,7 +196,7 @@
                                     <label for="seats">Seats *</label>
                                     <select class="nice-select form-control" tabindex="0" name="seats" required>
                                         @for ($i = 2; $i <= 8; $i++)
-                                            <option value="{{ $i }}">{{ $i }}</option>
+                                            <option value={{ $i }}>{{ $i }}</option>
                                         @endfor
                                     </select>
                                 </div>

@@ -20,22 +20,22 @@ use App\Models\User;
 
 class ListingController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index(LanguageController $language)
     {
+        $user = auth()->user();
         $language->language();
         $title = "My Listing || Dashboard";
-        $active = Status::where('name', 'active')->first();
+        $active = Status::where('id', 1)->first();
         $sold = Status::where('name', 'sold')->first();
-        $lists = Listing::where('user_id', auth()->user()->id)->latest()->paginate(10);
-        $lists_count = Listing::all();
-        return view('dashboard.listing.index', compact('lists', 'lists_count', 'title'));
+        if ($user->id === 1) {
+            $lists = Listing::paginate(50);
+            return view('dashboard.listing.index', compact('lists', 'title'));
+        } else {
+            $lists = Listing::where('user_id', $user->id)->latest()->paginate(10);
+            return view('dashboard.listing.index', compact('lists', 'title'));
+        }
     }
-    public function add_listing(LanguageController $language)
+    public function create(LanguageController $language)
     {
         $language->language();
         $title = "Add New Listing || Dashboard";
@@ -44,10 +44,11 @@ class ListingController extends Controller
         $features = Features::all();
         $conditions = Condition::all();
 
-        return view('dashboard.listing.addlisting', compact(['title', 'categories', 'brands', 'features', 'conditions']));
+        return view('dashboard.listing.create', compact(['title', 'categories', 'brands', 'features', 'conditions']));
     }
     public function store(Request $request)
     {
+        $user = auth()->user();
         $request->validate([
             'title' => 'required',
             'lang' => 'required',
@@ -58,19 +59,25 @@ class ListingController extends Controller
             'features' => 'required|min:2',
         ]);
 
-        $condition = Condition::where('name', $request->condition)->first();
-        $brand = Brands::where('name', $request->brand_name)->first();
-        $isExistModel = Models::where('id', $request->model)->first();
+        // $condition = Condition::where('name', $request->condition)->first();
+        // $brand = Brands::where('name', $request->brand_name)->first();
+        $isExistModel = Models::where('name', $request->model)->first();
         if (!$isExistModel) {
-            $model = Models::create([
+            $modelCreated = Models::create([
                 'name' => $request->model,
-                'brand_id' => $request->brand_name,
+                'brand_id' => $request->brand_id,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+            $model = $modelCreated->id;
         } else {
             $model = $isExistModel->id;
         }
+        foreach ($request->features as $feature) {
+            $features[] = $feature;
+        }
+        // dd($features);
+
 
         $manager = new ImageManager(new Driver());
         if ($request) {
@@ -79,24 +86,36 @@ class ListingController extends Controller
             $images_path = 'public/uploads/products/images/';
             $thumb_path = 'public/uploads/products/thumbnails/';
 
+            // Create directories if they do not exist
+            if (!is_dir(base_path($images_path))) {
+                mkdir(base_path($images_path), 0755, true);
+            }
+            if (!is_dir(base_path($thumb_path))) {
+                mkdir(base_path($thumb_path), 0755, true);
+            }
+
+
+            $request->validate([
+                'title' => 'required|string|max:400',
+                'thumbnail' => 'required',
+                'image' => 'required|array|min:2',
+                'features' => 'required|array|min:5'
+            ]);
             // return $request;
             if ($request->hasFile('thumbnail')) {
                 $thumbnail = $request->thumbnail;
                 $image = $manager->read($thumbnail);
-                $image_name = 'uid-' . auth()->user()->id . '- ' . 'post-id' . '-' . $last_item . '-' . now() . '-' . rand(10, 100) . '.' . $thumbnail->getClientOriginalExtension();
+                $image_name = $user->id . $last_item . '-' . time() . '-' . rand(10, 100) . '.' . $thumbnail->getClientOriginalExtension();
                 $image->scale(500);
-                // $image->toPng()->save(base_path($thumb_path . $image_name));
-                // move_uploaded_file($thumbnail, $thumb_path . $image_name);
+                $image->save(base_path($thumb_path . $image_name));
                 $thumbnail_name = $image_name;
-
-
 
                 $files = $request->image;
                 foreach ($files as $file) {
                     $image = $manager->read($file);
-                    $image_name = 'uid-' . auth()->user()->id . '- ' . 'post-id' . '-' . $last_item . '-' . now() . '-' . rand(10, 100) . '.' . $file->getClientOriginalExtension();
+                    $image_name = 'uid-' . auth()->user()->id . '-post-id-' . $last_item . '-' . time() . '-' . rand(10, 100) . '.' . $file->getClientOriginalExtension();
                     $image->scale(500);
-                    // $image->toPng()->save(base_path($images_path . $image_name));
+                    $image->save(base_path($images_path . $image_name));
                     $imgData[] = $image_name;
                 }
 
@@ -107,9 +126,9 @@ class ListingController extends Controller
                     'title' => $request->title,
                     'slug' => str::slug($request->title),
                     'model_id' => $model,
-                    'brand_id' => $brand->id,
+                    'brand_id' => $request->brand_id,
                     'year' => $request->year,
-                    'condition_id' => $condition->id,
+                    'condition_id' => $request->condition_id,
                     'stock_number' => $request->stock_number,
                     'mileage' => $request->mileage,
                     'transmision' => $request->transmision,
@@ -124,12 +143,15 @@ class ListingController extends Controller
                     'weight' => $request->weight,
                     'dimension' => $request->dimension,
                     'description' => $request->description,
-                    'features' => json_encode($request->features),
+                    'features_id' => json_encode($features),
                     'price' => $request->price,
                     'currency' => $request->currency,
+                    'status_id' => 1,
                     'thumbnail' => $thumbnail_name,
                     'image' => json_encode($imgData),
                     'video' => $request->video,
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ]);
                 toast('Successfully Created Your List!', 'success');
                 return redirect('/dashboard/listing');
@@ -141,9 +163,9 @@ class ListingController extends Controller
                     'title' => $request->title,
                     'slug' => str::slug($request->title),
                     'model_id' => $request->model,
-                    'brand_id' => $brand->id,
+                    'brand_id' => $request->brand_id,
                     'year' => $request->year,
-                    'condition_id' => $condition->id,
+                    'condition_id' => $request->condition_id,
                     'mileage' => $request->mileage,
                     'transmision' => $request->transmision,
                     'driver_type' => $request->driver_type,
@@ -157,15 +179,17 @@ class ListingController extends Controller
                     'weight' => $request->weight,
                     'dimension' => $request->dimension,
                     'description' => $request->description,
-                    'features' => json_encode($request->features),
+                    'features_id' => json_encode($features),
                     'price' => $request->price,
                     'currency' => $request->currency,
+                    'status_id' => 1,
                     'video' => $request->video,
+                    'created_at' => now(),
+                    'updated_at' => now()
                 ]);
                 toast('Successfully Created Your List!', 'success');
-                return redirect('/dashboard/listing');
+                return redirect()->route('car.index');
             }
-
 
         } else {
             toast('Please Enter Data Properly!', 'error');
@@ -181,16 +205,14 @@ class ListingController extends Controller
         $language->language();
         $list = Listing::where('id', $id)->first();
         $reviews = Review::where('product_id', $id)
-            ->where('status', 'active')->get();
-        $title = $list->title . ' || ' . $list->model . '||' . $list->brand_name;
-        return view('dashboard.listing.listing_details', compact('title', 'list', 'reviews'));
+            ->where('status_id', 1)->get();
+        $title = $list->title . ' || ' . $list->model->name . '||' . $list->brand->name;
+        return view('dashboard.listing.listing_details', compact(['title', 'list', 'reviews']));
     }
     //Status changed to sold
     public function sold($id)
     {
-
         $status = Listing::where('id', $id)->first();
-
         if ($status->status->name == 'active') {
             Listing::find($id)->update([
                 'status' => 'sold',
@@ -219,7 +241,7 @@ class ListingController extends Controller
     // Store to converted language
     public function convert_listing($id, Request $request)
     {
-
+        // $condition = Condition::where('name', $request->condition)->first();
         $parent = Listing::where('id', $id)->first();
         if ($request->lang == 'ja') {
             $currency = 'yen';
@@ -239,7 +261,7 @@ class ListingController extends Controller
                 'model_id' => $request->model,
                 'brand_id' => $request->brand_name,
                 'year' => $parent->year,
-                'condition_id' => $request->condition,
+                'condition_id' => $request->condition_id,
                 'stock_number' => $parent->stock_number,
                 'mileage' => $parent->mileage,
                 'transmision' => $parent->transmision,
@@ -260,12 +282,13 @@ class ListingController extends Controller
                 'thumbnail' => $parent->thumbnail,
                 'image' => $parent->image,
                 'video' => $parent->video,
+                'updated_at' => now(),
             ]);
             toast('Successfully Converted Your List!', 'success');
-            return redirect('/dashboard/listing');
+            return redirect()->route('car.index');
         } else {
             toast('Failed to converted the list!', 'error');
-            return redirect('/dashboard/listing');
+            return redirect()->route('car.index');
         }
 
     }
@@ -284,13 +307,20 @@ class ListingController extends Controller
     // Update the list
     public function update(Request $request, $id)
     {
+        $user = auth()->user();
+
+        $condition = Condition::where('name', $request->condition)->first();
         $manager = new ImageManager(new Driver());
         if ($request->thumbnail) {
             $path = 'public/uploads/products/thumbnails/';
+            // Create directory if it does not exist
+            if (!is_dir(base_path($path))) {
+                mkdir(base_path($path), 0755, true);
+            }
             $old_image = Listing::where('id', $id)->first();
             $image = $manager->read($request->file('thumbnail'));
             $image->scale(500);
-            $image_name = 'uid-' . auth()->user()->id . '-' . 'post-id-' . $old_image->id . '-' . now() . '-' . rand(10, 100) . '.' . $request->file('thumbnail')->getClientOriginalExtension();
+            $image_name = $user->id . $old_image->id . '-' . time() . '-' . rand(10, 100) . '.' . $request->file('thumbnail')->getClientOriginalExtension();
 
             if (file_exists(base_path($path . $old_image->thumbnail))) {
                 unlink(base_path($path . $old_image->thumbnail));
@@ -305,7 +335,7 @@ class ListingController extends Controller
                 'brand_id' => $request->brand_name,
                 'type' => $request->type,
                 'year' => $request->year,
-                'condition_id' => $request->condition,
+                'condition_id' => $condition->id,
                 'stock_number' => $request->stock_number,
                 'mileage' => $request->mileage,
                 'transmision' => $request->transmision,
@@ -336,7 +366,7 @@ class ListingController extends Controller
                 'brand_id' => $request->brand_name,
                 'type' => $request->type,
                 'year' => $request->year,
-                'condition_id' => $request->condition,
+                'condition_id' => $condition->id,
                 'stock_number' => $request->stock_number,
                 'mileage' => $request->mileage,
                 'transmision' => $request->transmision,
@@ -351,7 +381,7 @@ class ListingController extends Controller
                 'weight' => $request->weight,
                 'dimension' => $request->dimension,
                 'description' => $request->description,
-                'features' => json_encode($request->features),
+                'features_id' => json_encode($request->features),
                 'price' => $request->price,
                 'video' => $request->video,
                 'updated_at' => now(),

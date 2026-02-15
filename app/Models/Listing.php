@@ -41,15 +41,16 @@ class Listing extends Model
         'video',
     ];
 
-    // protected $casts = [
-    //     'features_id' => 'array',
-    // ];
+    //Casting Features
+    protected $casts = [
+        'features_id' => 'array',
+    ];
 
-    //Relation with features
-    // public function features()
-    // {
-    //     return $this->belongsToMany(Features::class, '', 'listing_id', 'feature_id');
-    // }
+    // Relation with features
+    public function features()
+    {
+        return $this->belongsTo(Features::class, 'features_id', 'id');
+    }
 
     // Seller Relationship
     public function seller()
@@ -59,25 +60,25 @@ class Listing extends Model
     // Category Relationship
     public function category()
     {
-        return $this->belongsTo(Categories::class, 'category_id', 'id')->name;
+        return $this->belongsTo(Categories::class, 'category_id', 'id');
     }
     // Relation wiht brands
     public function brand()
     {
-        return $this->belongsTo(Brands::class, 'brand_id', 'id')->name;
+        return $this->belongsTo(Brands::class, 'brand_id', 'id');
     }
     // Relation wiht brands
     public function model()
     {
-        return $this->belongsTo(Models::class, 'model_id', 'id')->name;
+        return $this->belongsTo(Models::class, 'model_id', 'id');
     }
     // Relation wiht brands
     public function status()
     {
-        return $this->belongsTo(Status::class, 'status_id', 'id')->name;
+        return $this->belongsTo(Status::class, 'status_id', 'id');
     }
     public function condition()
     {
-        return $this->belongsTo(Condition::class, 'condition_id', 'id')->name;
+        return $this->belongsTo(Condition::class, 'condition_id', 'id');
     }
 }

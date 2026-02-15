@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::vuseb9prBF5FEhtt',
+            '_route' => 'generated::lHMV5o9iHlkh43D9',
           ),
           1 => NULL,
           2 => 
@@ -248,7 +248,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::XZuQtpU4Q27zkHNR',
+            '_route' => 'generated::JXrZd30M23IJjxq5',
           ),
           1 => NULL,
           2 => 
@@ -303,7 +303,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::eih6ZJGc5QntZn9y',
+            '_route' => 'generated::8hutTJKgvbmluS5s',
           ),
           1 => NULL,
           2 => 
@@ -394,7 +394,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::H4ShaUsdcjQh7RIm',
+            '_route' => 'generated::MW0sm0mDNMsWV196',
           ),
           1 => NULL,
           2 => 
@@ -2592,7 +2592,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::vuseb9prBF5FEhtt' => 
+    'generated::lHMV5o9iHlkh43D9' => 
     array (
       'methods' => 
       array (
@@ -2620,8 +2620,8 @@ app('router')->setCompiledRoutes(
                     return response(\\Illuminate\\Support\\Facades\\View::file(\'C:\\\\Users\\\\Abdur Rahim\\\\Desktop\\\\akor\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Configuration\'.\'/../resources/health-up.blade.php\', [
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
-                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000007560000000000000000";}}',
-        'as' => 'generated::vuseb9prBF5FEhtt',
+                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000003180000000000000000";}}',
+        'as' => 'generated::lHMV5o9iHlkh43D9',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3190,7 +3190,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::XZuQtpU4Q27zkHNR' => 
+    'generated::JXrZd30M23IJjxq5' => 
     array (
       'methods' => 
       array (
@@ -3210,7 +3210,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::XZuQtpU4Q27zkHNR',
+        'as' => 'generated::JXrZd30M23IJjxq5',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3299,7 +3299,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::eih6ZJGc5QntZn9y' => 
+    'generated::8hutTJKgvbmluS5s' => 
     array (
       'methods' => 
       array (
@@ -3319,7 +3319,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::eih6ZJGc5QntZn9y',
+        'as' => 'generated::8hutTJKgvbmluS5s',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3518,7 +3518,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::H4ShaUsdcjQh7RIm' => 
+    'generated::MW0sm0mDNMsWV196' => 
     array (
       'methods' => 
       array (
@@ -3538,7 +3538,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::H4ShaUsdcjQh7RIm',
+        'as' => 'generated::MW0sm0mDNMsWV196',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4891,8 +4891,8 @@ app('router')->setCompiledRoutes(
           0 => 'web',
           1 => 'role:admin,manager,seller',
         ),
-        'uses' => 'App\\Http\\Controllers\\ListingController@add_listing',
-        'controller' => 'App\\Http\\Controllers\\ListingController@add_listing',
+        'uses' => 'App\\Http\\Controllers\\ListingController@create',
+        'controller' => 'App\\Http\\Controllers\\ListingController@create',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
@@ -7230,7 +7230,7 @@ app('router')->setCompiledRoutes(
                         $config,
                         $isProduction
                     ))($request, $path);
-                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000009ac0000000000000000";}}',
+                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000004f20000000000000000";}}',
         'as' => 'storage.local',
       ),
       'fallback' => false,

@@ -80,7 +80,7 @@
 
                                         <div class="tfcl-table-listing">
                                             <div class="table-responsive">
-                                                <span class="result-text"><b>{{ $lists_count->count() }}</b> results
+                                                <span class="result-text"><b>{{ $lists->count() }}</b> results
                                                     found</span>
                                                 <table class="table">
                                                     <thead>

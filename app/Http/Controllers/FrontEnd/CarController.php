@@ -24,8 +24,8 @@ class CarController extends Controller
         $list = Listing::where('id', $id)->first();
         // $views = $list->views;
         $reviews = Review::where('product_id', $id)
-            ->where('status', 'active')->get();
-        $cars = Listing::orderBy('views', 'desc')->where('lang', session()->get('local'))->limit(5)->get();
+            ->where('status_id', 1)->get();
+        $cars = Listing::orderBy('views', 'desc')->limit(5)->get();
         $title = $list->title . ' || ' . $list->model;
         Listing::find($id, 'id')->update([
             'views' => $list->views == null ? $list->views + 1 : $list->views + 1,

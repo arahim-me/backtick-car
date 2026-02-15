@@ -87,35 +87,41 @@ class ProfileController extends Controller
             return redirect()->back();
         }
     }
+    //Update profile picture
     public function profile_update_image(Request $request)
     {
+        $user = auth()->user();
         $manager = new ImageManager(new Driver());
-
         $image = $manager->read($request->file('image'));
-        $path = public_path('uploads/profiles/');
+        $path = 'public/uploads/profiles/';
         $oldImg = auth()->user()->image;
+        $image_name = $user->id . '-' . time() . '-' . rand(10, 100) . '.' . $request->file('image')->getClientOriginalExtension();
+        // Create directory if it does not exist
+        if (!is_dir(base_path($path))) {
+            mkdir(base_path($path), 0755, true);
+        }
         if ($request->hasFile('image')) {
-            $image_name = 'uid-' . auth()->user()->id . '-' . now() . '.' . $request->file('image')->getClientOriginalExtension();
-            $image = $manager->read($request->file('image'));
-            $image->scale(150);
+            $image->scale(200);
             if (file_exists(base_path($path . $oldImg))) {
                 unlink(base_path($path . $oldImg));
-                $image->toPng()->save(base_path($path . $image_name));
+                $image->save(base_path($path . $image_name));
             } else {
-                $image->toPng()->save(base_path($path . $image_name));
+                $image->save(base_path($path . $image_name));
             }
-            $image->toPng()->save(base_path($path . $image_name));
-            User::find(auth()->id())->update([
-                'image' => $image_name,
-                'updated_at' => now(),
-            ]);
-            toast('Image Successfully updated', 'success');
-            return back();
-        } else {
-            toast('Image could not updated', 'error');
-            return back();
+            $updated = $user::find(
+                $user->id
+            )->update([
+                        'image' => $image_name,
+                        'updated_at' => now(),
+                    ]);
+            if ($updated) {
+                toast('Image Successfully updated', 'success');
+                return redirect()->back();
+            } else {
+                toast('Image could not updated', 'error');
+                return redirect()->back();
+            }
         }
-
     }
 
     public function language(Request $request)
