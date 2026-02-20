@@ -36,6 +36,11 @@ Route::post('/contact/message/send', [App\Http\Controllers\MessagesController::c
 Route::get('/about', [App\Http\Controllers\FrontEnd\AboutController::class, 'index'])->name('about.index');
 
 Auth::routes();
+
+Route::middleware(['role:admin,manager'])->prefix('dashboard')->group(function () {
+    Route::get('/seller/request', [SellerController::class, 'request'])->name('seller.request');
+    Route::get('/seller/request/update/{id}/{status}', [SellerController::class, 'request_update'])->name('seller.request.updatestatus');
+});
 // Dashboard Home
 Route::middleware('auth')->prefix('dashboard')->group(function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -54,7 +59,6 @@ Route::middleware(['role:admin,manager'])->prefix('dashboard')->group(function (
     Route::resource('users', UserController::class);
     Route::resource('roles', App\Http\Controllers\BackEnd\RoleController::class);
     Route::resource('permissions', App\Http\Controllers\BackEnd\PermissionController::class);
-    Route::get('/seller/request', [SellerController::class, 'request'])->name('seller.request');
     Route::get('/role/update/status/{id}', [App\Http\Controllers\BackEnd\RoleController::class, 'update_status'])->name('roles.update.status');
 });
 
@@ -101,7 +105,9 @@ Route::middleware(['role:admin,manager,seller'])->prefix('dashboard')->group(fun
     Route::get('/dashboard/messages', [App\Http\Controllers\MessagesController::class, 'index'])->name('messages');
     // Orders
     Route::get('/orders', [OrdersController::class, 'index'])->name('orders.index');
-    Route::get('/orders/{id}', [OrdersController::class, 'order_details'])->name('orders.details');
+    Route::get('/orders/create/{id}', [OrdersController::class, 'create'])->name('orders.create');
+    Route::post('/orders/store', [OrdersController::class, 'store'])->name('orders.store');
+    Route::get('/orders/{id}', [OrdersController::class, 'show'])->name('orders.show');
     // Car Brands
     Route::resource('brands', BrandsController::class);
     // Car Features

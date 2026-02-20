@@ -59,8 +59,8 @@ class SellerController extends Controller
             'email' => 'required|email|max:255',
             'phone' => 'required|string|max:255',
             'fax' => 'nullable|string|max:20',
-            'website' => 'nullable|url|max:255',
-            'social_media' => 'nullable|url',
+            'website' => 'nullable',
+            'social_media' => 'nullable',
             'registration_number' => 'nullable|string|max:255',
             'tax_number' => 'nullable|string|max:255',
             'used_cars_license_number' => 'nullable|string|max:255',
@@ -111,7 +111,42 @@ class SellerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $title = 'Show Seller Details';
+        $seller = Seller::where('id', $id)->first();
+        return view('dashboard.seller.show', compact(['title', 'seller']));
+    }
+
+    //Accept/Decline Seller Request
+    public function request_update($id, string $status)
+    {
+        if ($status == 'accept') {
+            $activeStatus = Status::where('name', 'active')->first();
+            $seller = Seller::where('id', $id)->first();
+            $updated = $seller->update([
+                'status_id' => $activeStatus->id,
+                'updated_at' => now(),
+            ]);
+            $seller->user->update([
+                'role_id' => 4,
+                'updated_at' => now(),
+            ]);
+            if ($updated) {
+                toast('The Seller Request Accepted!', 'success');
+                return redirect()->back();
+            } else {
+                toast('Failed to Accept Seller Request!', 'error');
+                return redirect()->back();
+            }
+        } else {
+            $deleted = Seller::where('id', $id)->delete();
+            if ($deleted) {
+                toast('The Seller Request Declined!', 'success');
+                return redirect()->back();
+            } else {
+                toast('Failed to Decline Seller Request!', 'error');
+                return redirect()->back();
+            }
+        }
     }
 
     /**
@@ -133,18 +168,27 @@ class SellerController extends Controller
     public function request()
     {
         $title = 'Seller Registration Request';
-        $pendingStatus = Status::where('name', 'requested')->first();
+        $pendingStatus = Status::where('name', 'pending')->first();
         $sellers = Seller::where('status_id', $pendingStatus->id)->get();
-        return 'hello';
-        // return view('dashboard.seller.request', compact(['title', 'sellers']));
+        $statuses = Status::all();
         // return 'hello';
+        return view('dashboard.seller.request', compact(['title', 'sellers', 'statuses']));
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+
+        $deleted = Seller::where('id', $id)->delete();
+        if ($deleted) {
+            toast('Successfully Deleted Seller!', 'success');
+            return redirect()->back();
+        } else {
+            toast('Failed to Delete Seller!', 'error');
+            return redirect()->back();
+        }
     }
 }

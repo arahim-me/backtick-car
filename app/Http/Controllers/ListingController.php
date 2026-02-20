@@ -28,7 +28,7 @@ class ListingController extends Controller
         $active = Status::where('id', 1)->first();
         $sold = Status::where('name', 'sold')->first();
         if ($user->id === 1) {
-            $lists = Listing::paginate(50);
+            $lists = Listing::latest()->paginate(50);
             return view('dashboard.listing.index', compact('lists', 'title'));
         } else {
             $lists = Listing::where('user_id', $user->id)->latest()->paginate(10);
@@ -105,7 +105,7 @@ class ListingController extends Controller
             if ($request->hasFile('thumbnail')) {
                 $thumbnail = $request->thumbnail;
                 $image = $manager->read($thumbnail);
-                $image_name = $user->id . $last_item . '-' . time() . '-' . rand(10, 100) . '.' . $thumbnail->getClientOriginalExtension();
+                $image_name = $user->id . '-' . $last_item . '-' . time() . '-' . rand(10, 100) . '.' . $thumbnail->getClientOriginalExtension();
                 $image->scale(500);
                 $image->save(base_path($thumb_path . $image_name));
                 $thumbnail_name = $image_name;
@@ -206,7 +206,7 @@ class ListingController extends Controller
         $list = Listing::where('id', $id)->first();
         $reviews = Review::where('product_id', $id)
             ->where('status_id', 1)->get();
-        $title = $list->title . ' || ' . $list->model->name . '||' . $list->brand->name;
+        $title = $list->brand->name . ' || ' . $list->model->name . ' || ' . $list->title;
         return view('dashboard.listing.listing_details', compact(['title', 'list', 'reviews']));
     }
     //Status changed to sold

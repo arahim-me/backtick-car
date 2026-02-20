@@ -101,7 +101,7 @@
                                         </fieldset>
                                         <fieldset class="t">
                                             <label class="fw-6">Shop Website URL (Optional)</label>
-                                            <input type="url" class="tb-my-input" name="website"
+                                            <input type="text" class="tb-my-input" name="website"
                                                 placeholder="Website URL">
                                             <div class="icon">
                                                 <svg width="18" height="18" viewBox="0 0 18 18"
@@ -115,7 +115,7 @@
                                         </fieldset>
                                         <fieldset class="t">
                                             <label class="fw-6">Social Media Link (Optional)</label>
-                                            <input type="url" class="tb-my-input" name="social_media"
+                                            <input type="text" class="tb-my-input" name="social_media"
                                                 placeholder="Facebook, Twitter, Instagram, etc.">
                                             <div class="icon">
                                                 <svg width="18" height="18" viewBox="0 0 18 18"
@@ -170,8 +170,16 @@
                                             </div>
                                         </fieldset>
                                         <fieldset class="t">
+                                            <label class="fw-6">Shop Address</label>
+                                            <input type="text" class="tb-my-input" name="address"
+                                                placeholder="Shop address">
+                                            <div class="icon">
+                                                <i class="fa-solid fa-map"></i>
+                                            </div>
+                                        </fieldset>
+                                        <fieldset class="t">
                                             <label class="fw-6">Shop Description</label>
-                                            <input type="tel" class="tb-my-input" name="description"
+                                            <input type="text" class="tb-my-input" name="description"
                                                 placeholder="Shop description">
                                             <div class="icon">
                                                 <svg width="18" height="18" viewBox="0 0 18 18"

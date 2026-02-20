@@ -11,6 +11,9 @@
                     <div class="tfcl-dashboard">
                         <h1 class="admin-title mb-3">{{ 'Update Your Profile' }}</h1>
                         <div class="tfcl-add-listing profile-inner">
+                            @if ($user->role_id == 5)
+                                <h6 class="alert text-danger">Keep updated your profile to buy or sell car</h6>
+                            @endif
                             <form action={{ route('profile.update.image') }} method="POST" enctype="multipart/form-data"
                                 style="margin-bottom: 100px;">
                                 @csrf

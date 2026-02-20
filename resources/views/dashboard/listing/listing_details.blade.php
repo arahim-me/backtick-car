@@ -528,12 +528,14 @@
                                         </div>
                                         <div class="features-inner tf-collapse-content">
                                             <div class="inner">
-                                                @foreach (json_decode($list->features_id) as $feature)
+                                                @forelse (json_decode($list->features_id) as $feature)
                                                     <div class="listing-feature-wrap flex">
                                                         <i class="icon-autodeal-check"></i>
                                                         <p>{{ $feature }}</p>
                                                     </div>
-                                                @endforeach
+                                                @empty
+                                                    <h5>No features</h5>
+                                                @endforelse
                                             </div>
                                         </div>
                                     </div>
@@ -845,31 +847,29 @@
 
 
                             </div>
-                            <div class="profile-map mb-30">
+                            {{-- <div class="profile-map mb-30">
                                 <div class="list-icon-pf gap-8 flex-three ">
                                     <i class="far fa-map"></i>
                                     <p class="font-1">1933, Yoshizawacho, Ota, Gunma 373-0019, Japan</p>
                                 </div>
-                                {{-- <div class="map">
-                                <iframe class="map-content" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d7302.453092836291!2d90.47477022812872!3d23.77494577893369!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1627293157601!5m2!1svi!2s" allowfullscreen="" loading="lazy">
-                                </iframe>
+                                <div class="map">
+                                    <iframe class="map-content"
+                                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d7302.453092836291!2d90.47477022812872!3d23.77494577893369!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1627293157601!5m2!1svi!2s"
+                                        allowfullscreen="" loading="lazy">
+                                    </iframe>
+                                </div>
                             </div> --}}
-                            </div>
                             <div class="profile-contact">
-                                <h6>Contact dealer</h6>
+                                <h6>Order with us</h6>
                                 <div class="btn-contact flex-two">
-                                    <a href="tel:0276604005" class="btn-pf bg-orange">
-                                        <i class="icon-autodeal-phone2"></i>
-                                        <span class="fs-16 fw-5 lh-20 font text-color-1">Call</span>
+                                    <a href="{{ route('orders.create', $list->id) }}" class="btn-pf bg-orange">
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                        <span class="fs-16 fw-5 lh-20 font text-color-1">Order Now</span>
                                     </a>
-                                    <a href="https://line.me/ti/p/FvR-gbS4Js" class="btn-pf bg-green">
-                                        <i class="fab fa-line" style="font-size: 20px"></i>
-                                        <span class="fs-16 fw-5 lh-20 font text-color-1">Line</span>
-                                    </a>
-                                    <a href="https://wa.me/+818067695333" class="btn-pf bg-green">
-                                        <i class="fab fa-whatsapp" style="font-size: 20px"></i>
-                                        <span class="fs-16 fw-5 lh-20 font text-color-1">W/A</span>
-                                    </a>
+                                    {{-- <a href="{{ route('cart.store', $list->id)}}" class="btn-pf bg-green">
+                                        <i class="fa-solid fa-cart-plus" style="font-size: 20px"></i>
+                                        <span class="fs-16 fw-5 lh-20 font text-color-1">Add to Cart</span>
+                                    </a> --}}
                                 </div>
 
 

@@ -9,7 +9,7 @@
             <div class="content-area pt-4 pb-0">
                 <main id="main" class="main-content">
                     <div class="tfcl-dashboard">
-                        <h1 class="admin-title mb-2">{{$title}}</h1>
+                        <h1 class="admin-title mb-2">{{ $title }}</h1>
 
                         <div class="tfcl-dashboard-middle mt-2">
                             <div class="row">
@@ -141,15 +141,44 @@
                                                     <tbody class="tfcl-table-content">
                                                         @forelse ($sellers as $seller)
                                                             <tr>
-                                                                <td class="column-listing text-capitalize">
-                                                                    {{ $seller->name }}
+                                                                <td class="column-listing">
+                                                                    {{-- {{ $seller->name }} --}}
+                                                                    <div class="col">
+                                                                        <div class="row">
+                                                                            <p>Shop Name: {{ $seller->name }}</p>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <p>Email: {{ $seller->email }}</p>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <p>Phone: {{ $seller->phone }}</p>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <p>Address: {{ $seller->address }}</p>
+                                                                        </div>
+                                                                    </div>
                                                                 </td>
                                                                 <td class="column-listing">
-                                                                    <p class="ms-2">{{ $seller->user->email }}</p>
+                                                                    {{-- <p class="ms-2">{{ $seller->user->email }}</p> --}}
+                                                                    <div class="col">
+                                                                        <div class="row">
+                                                                            <p>Name: {{ $seller->user->name }}</p>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <p>E-mail: {{ $seller->user->email }}</p>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <p>Phone: {{ $seller->user->phone }}</p>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <p>Address: {{ $seller->user->location }}</p>
+                                                                        </div>
+                                                                    </div>
                                                                 </td>
                                                                 <td class="column-listing">
                                                                     <div class="column-listing text-capitalize">
-                                                                        <p class="text-center">{{ $seller->user->name }}</p>
+                                                                        <p class="text-center">{{ $seller->status->name }}
+                                                                        </p>
                                                                     </div>
                                                                 </td>
                                                                 <td class="column-listing">
@@ -159,16 +188,23 @@
                                                                     </div>
                                                                 </td>
                                                                 <td class="column-controller">
-                                                                    <a href="{{ route('seller.edit', [$seller->id]) }}"
+                                                                    <a href="{{ route('seller.show', [$seller->id]) }}"
                                                                         class="btn-action tfcl-dashboard-action-edit"><i
-                                                                            class="fa-solid fa-pen-to-square"></i></a>
-                                                                    <a href="#"
+                                                                            class="fa-solid fa-eye"></i></a>
+                                                                    {{-- <a href="{{ route('seller.edit', [$seller->id])}}"
                                                                         class="btn-action tfcl-dashboard-action-edit text-capitalize"><i
-                                                                            class="fa-solid {{ $seller->status_id == 1 ? 'fa-circle-check' : 'fa-circle-xmark' }} text-{{ $seller->status_id == 1 ? 'success' : 'danger' }}"></i></a>
-                                                                    <a href="{{ route('seller.destroy', $seller->id) }}"
-                                                                        class="btn-action tfcl-dashboard-action-edit"
-                                                                        onclick="return confirm('Are you sure you want to delete this user?');"><i
-                                                                            class="fa-solid fa-trash-can"></i></a>
+                                                                            class="fa-solid {{ $seller->status_id == 1 ? 'fa-circle-check' : 'fa-circle-xmark' }} text-{{ $seller->status_id == 1 ? 'success' : 'danger' }}"></i></a> --}}
+                                                                    <form
+                                                                        action="{{ route('seller.destroy', $seller->id) }}"
+                                                                        method="POST" style="display:inline;">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit"
+                                                                            class="btn-action tfcl-dashboard-action-edit"
+                                                                            onclick="return confirm('Are you sure you want to delete this seller?');"
+                                                                            style="background:none;border:none;padding:0;"><i
+                                                                                class="fa-solid fa-trash-can"></i></button>
+                                                                    </form>
                                                                 </td>
                                                             </tr>
                                                         @empty

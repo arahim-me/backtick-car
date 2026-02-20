@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\BackEnd;
 
 use App\Http\Controllers\Controller;
+use App\Models\Listing;
 use App\Models\Orders;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class OrdersController extends Controller
         $user = auth()->user();
         $title = 'Orders';
         if ($user->role->id == 1 || $user->role->id == 2) {
-            $orders = Orders::latest()->get();
+            $orders = Orders::latest()->paginate(20);
             return view('dashboard.orders.index', compact(['title', 'orders']));
         } else {
             $orders = Orders::where('seller_id', $user->id)->latest()->get();
@@ -27,11 +28,17 @@ class OrdersController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($id)
     {
-        //$title = 'Create Order';
-        //$sellers = User::where('role_id', 2)->get();
-        //$customers = User::where('role_id', 3)->get();
+        $user = auth()->user();
+        $title = 'Create Order';
+        $car = Listing::where('id', $id)->first();
+        if (!$user->role->id == 6) {
+            toast('You are not authorized to view this page.', 'error');
+            return redirect()->back();
+        } else {
+            return view('dashboard.orders.create', compact(['title', 'car']));
+        }
     }
 
     /**

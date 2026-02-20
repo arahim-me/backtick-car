@@ -112,7 +112,9 @@
                                                             found</span>
                                                     </div>
                                                     <div class="d-flex align-items-center justify-content-end">
-                                                        <a href="{{ route('users.index') }}"class="btn btn-dark object-fit-contain"><i class="fa-solid fa-brush me-2"></i>Clear Filter</a>
+                                                        <a
+                                                            href="{{ route('users.index') }}"class="btn btn-dark object-fit-contain"><i
+                                                                class="fa-solid fa-brush me-2"></i>Clear Filter</a>
                                                     </div>
                                                     <div class="d-flex align-items-center justify-content-end">
                                                         <a href="{{ route('users.create') }}"
@@ -154,16 +156,26 @@
                                                                     </div>
                                                                 </td>
                                                                 <td class="column-controller">
-                                                                    <a href="{{ route('users.edit', [$user->id]) }}"
+                                                                    <a href="{{ route('users.show', [$user->id]) }}"
                                                                         class="btn-action tfcl-dashboard-action-edit"><i
-                                                                            class="fa-solid fa-pen-to-square"></i></a>
+                                                                            class="fa-solid fa-eye"></i></a>
                                                                     <a href="#"
                                                                         class="btn-action tfcl-dashboard-action-edit text-capitalize"><i
-                                                                            class="fa-solid {{$user->status_id == 1 ? 'fa-circle-check' : 'fa-circle-xmark'}} text-{{ $user->status_id == 1 ? 'success' : 'danger' }}"></i></a>
-                                                                    <a href="{{ route('users.destroy', $user->id) }}"
-                                                                        class="btn-action tfcl-dashboard-action-edit"
-                                                                        onclick="return confirm('Are you sure you want to delete this user?');"><i
-                                                                            class="fa-solid fa-trash-can"></i></a>
+                                                                            class="fa-solid {{ $user->status_id == 1 ? 'fa-circle-check' : 'fa-circle-xmark' }} text-{{ $user->status_id == 1 ? 'success' : 'danger' }}"></i></a>
+                                                                    <a href="{{ route('users.edit', [$user->id])}}"
+                                                                        class="btn-action tfcl-dashboard-action-edit text-capitalize"><i
+                                                                            class="fa-solid fa-pen-to-square"></i></a>
+                                                                    <form
+                                                                        action="{{ route('users.destroy', $user->id) }}"
+                                                                        method="POST" style="display:inline;">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit"
+                                                                            class="btn-action tfcl-dashboard-action-edit"
+                                                                            onclick="return confirm('Are you sure you want to delete this user?');"
+                                                                            style="background:none;border:none;padding:0;"><i
+                                                                                class="fa-solid fa-trash-can"></i></button>
+                                                                    </form>
                                                                 </td>
                                                             </tr>
                                                         @empty

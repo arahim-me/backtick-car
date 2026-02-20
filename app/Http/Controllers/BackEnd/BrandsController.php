@@ -17,7 +17,7 @@ class BrandsController extends Controller
         $user = auth()->user();
         $title = 'Brands';
         $brands = Brands::all();
-        if ($user->role()->id <= 4) {
+        if ($user->role->id <= 4) {
             return view('dashboard.brands.index', compact(['title', 'brands']));
         } else {
             toast('You are not authorized to view this page.', 'error');

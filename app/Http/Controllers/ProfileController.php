@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -17,6 +18,14 @@ class ProfileController extends Controller
 {
     public function index(LanguageController $language)
     {
+        $user = auth()->user();
+        $customerRole = Role::where('name', 'customer')->first();
+        if ($user->role_id == 5 && $user->name && $user->email && $user->phone && $user->location && $user->description && $user->image && $user->nid) {
+            $user::find($user->id)->update([
+                'role_id' => $customerRole->id,
+                'updated_at' => now(),
+            ]);
+        }
         $language->language();
         $title = "Profile Update || Dashboard";
         return view('dashboard.profile.index', compact('title'));
@@ -94,7 +103,7 @@ class ProfileController extends Controller
         $manager = new ImageManager(new Driver());
         $image = $manager->read($request->file('image'));
         $path = 'public/uploads/profiles/';
-        $oldImg = auth()->user()->image;
+        $oldImg = $user->image;
         $image_name = $user->id . '-' . time() . '-' . rand(10, 100) . '.' . $request->file('image')->getClientOriginalExtension();
         // Create directory if it does not exist
         if (!is_dir(base_path($path))) {
@@ -102,18 +111,16 @@ class ProfileController extends Controller
         }
         if ($request->hasFile('image')) {
             $image->scale(200);
-            if (file_exists(base_path($path . $oldImg))) {
-                unlink(base_path($path . $oldImg));
+            if (!$oldImg) {
                 $image->save(base_path($path . $image_name));
             } else {
+                unlink(base_path($path . $oldImg));
                 $image->save(base_path($path . $image_name));
             }
-            $updated = $user::find(
-                $user->id
-            )->update([
-                        'image' => $image_name,
-                        'updated_at' => now(),
-                    ]);
+            $updated = $user::find($user->id)->update([
+                'image' => $image_name,
+                'updated_at' => now(),
+            ]);
             if ($updated) {
                 toast('Image Successfully updated', 'success');
                 return redirect()->back();

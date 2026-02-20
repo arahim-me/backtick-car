@@ -891,7 +891,7 @@
                                                 <div class="img-style">
                                                     <img class="lazyload"
                                                         data-src="{{ asset('uploads/products/thumbnails') }}/{{ $car->thumbnail }}"
-                                                        src="{{ asset('uploads/products/thumbnails') }}/{{ $car->thumbnail }}"
+                                                        src="{{ asset('uploads/products/thumbnails/') }}{{ $car->thumbnail }}"
                                                         alt="image">
                                                 </div>
                                             </div>
@@ -925,8 +925,8 @@
                                                 <div class="days-box flex justify-space align-center">
                                                     <div class="img-author">
                                                         <img class="lazyload"
-                                                            data-src="{{ asset('uploads') }}/{{ $car->seller->image == 'default.png' ? 'default/profile.png' : 'profiles/' . $car->seller->image }}"
-                                                            src="{{ asset('uploads') }}/{{ $car->seller->image == 'default.png' ? 'default/profile.png' : 'profiles/' . $car->seller->image }}"
+                                                            data-src="{{ asset('uploads') }}/{{ $car->seller->image ? 'default/profile.png' : 'profiles/' . $car->seller->image }}"
+                                                            src="{{ asset('uploads') }}/{{ $car->seller->image ? 'default/profile.png' : 'profiles/' . $car->seller->image }}"
                                                             alt="image">
                                                         <span
                                                             class="font text-color-2 fw-5">{{ $car->seller->name ? __($car->seller->name) : '' }}</span>
